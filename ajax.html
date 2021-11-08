@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+	<title>JSON Demo</title>
+	<meta charset="utf-8"/>
+	<script>
+		function loadMessages() {
+			request = new XMLHttpRequest();
+
+			request.open("GET", "https://rickandmortyapi.com/api/character", true);
+
+			request.onreadystatechange = function() {
+
+				if (request.readyState == 4 && request.status == 200) {
+
+					theData = request.responseText;
+					returnHTML = theData;
+					data = JSON.parse(theData);
+					changeddata = "";
+					for (i = 0; i < data.results.length; i++) {
+						changeddata += "Name: " + data.results[i].name + "<br>";
+						changeddata += "Status: " + data.results[i].status + "<br>";
+						changeddata += "Species: " + data.results[i].species + "<br>";
+						changeddata += "Gender: " + data.results[i].gender + "<br>";
+						changeddata +="Origin: " + data.results[i].origin.name + "<br><br>";
+					}
+					returnHTML += "<br><br>" + changeddata;
+
+					document.getElementById("messages").innerHTML =returnHTML;
+				}
+				else if (request.readyState == 4 && request.status != 200) {
+
+					document.getElementById("messages").innerHTML = "Whoops, something went terribly wrong!";
+
+				}
+
+				else if (request.readyState == 3) {
+
+					console.log("6:  ready state 3- request received,data being sent");
+					document.getElementById("messages").innerHTML = "Come back soon!";
+
+				}
+
+			}//end on readystate change
+
+		// Step 4: fire off the HTTP request
+			request.send();
+			console.log("4 request sent");
+		}
+	</script>
+</head>
+
+
+<body onload="loadMessages()">
+
+	<h1>JSON Data</h1>
+	<div id="messages"></div>
+	<h2>
+		This is an API that provides information about Rick and Morty characters.
+		It's possible to get names, species, origins and more from this API.
+	</h2>
+	<h2>
+		The website I found it in is https://rickandmortyapi.com/ and the actual API
+		is at https://rickandmortyapi.com/api/character.
+	</h2>
+	<h2>
+		I accessed the API data and went into the results array. Each of the indeces
+		of the array holds a character. I accessed the name, status, species, gender
+		and origin and printed them out on the website.
+	</h2>
+	<h2>
+		This API would be useful in an app like amazon video or netflix if you
+		wanted to have information on the characters. It would also be helpful for
+		a rick and morty wiki page to display information about chracters easily
+		without having to write it down yourself.
+	</h2>
+</body>
+</html>
